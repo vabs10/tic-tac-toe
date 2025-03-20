@@ -36,28 +36,28 @@ const useTicTacToe = (initialPlayerSymbol: Symbol= null) =>{
     }, [playerSymbol]);
 
     const makePlayerMove = useCallback((index: number) =>{
-    if(!isGameStarted || !isPlayerTurn || board[index] !== null || winner)
-        return;
+        if(!isGameStarted || !isPlayerTurn || board[index] !== null || winner)
+            return;
 
-    const newBoard = [...board];
-    newBoard[index] = playerSymbol;
-    setBoard(newBoard);
+        const newBoard = [...board];
+        newBoard[index] = playerSymbol;
+        setBoard(newBoard);
 
-    const{winner: newWinner, combination} = checkWinner(board);
-    
-    if(newWinner){
-        setWinner(winner);
-        setWinningCombination(combination)
-        return;
-    }
+        const {winner: newWinner, combination} = checkWinner(newBoard);
+        
+        if(newWinner){
+            setWinner(newWinner);
+            setWinningCombination(combination);
+            return;
+        }
 
-    if(isBoardFull(newBoard)){
-        setWinner('draw');
-        return;
-    }
+        if(isBoardFull(newBoard)){
+            setWinner('draw');
+            return;
+        }
 
-    setIsPlayerTurn(false);
-    makeComputerMove(newBoard);
+        setIsPlayerTurn(false);
+        makeComputerMove(newBoard);
     }, [board, isGameStarted, isPlayerTurn, playerSymbol, winner]);
 
     const makeComputerMove = useCallback(async(currentBoard: Board) =>{
@@ -68,16 +68,16 @@ const useTicTacToe = (initialPlayerSymbol: Symbol= null) =>{
 
             if(computerMove !== null && currentBoard[computerMove] === null){
                 const newBoard = [...currentBoard];
-                const{winner: newWinner, combination} = checkWinner(newBoard);
+                newBoard[computerMove] = computerSymbol;
+                setBoard(newBoard);
+
+                const {winner: newWinner, combination} = checkWinner(newBoard);
                 if(newWinner){
                     setWinner(newWinner);
                     setWinningCombination(combination);
                     setIsLoading(false);
                     return;
                 }
-                
-                newBoard[computerMove] = computerSymbol;
-                setBoard(newBoard);
 
                 if(isBoardFull(newBoard)){
                     setWinner('draw');
@@ -92,7 +92,6 @@ const useTicTacToe = (initialPlayerSymbol: Symbol= null) =>{
         }
         setIsLoading(false);
     }, [computerSymbol]);
-
 
     return {
         board, playerSymbol, computerSymbol, isPlayerTurn, winner, winningCombination, isGameStarted, isLoading, startGame, resetGame, makePlayerMove
