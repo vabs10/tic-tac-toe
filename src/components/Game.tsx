@@ -47,7 +47,7 @@ const Game: React.FC = () => {
             board={board}
             onBoxClick={makePlayerMove}
             winnigCombination={winningCombination}
-            isDisabled={!isPlayerTurn || isLoading || !winner}
+            isDisabled={!isGameStarted || !isPlayerTurn || isLoading || winner !== null}
             />
 
             {(isGameStarted && winner) && (

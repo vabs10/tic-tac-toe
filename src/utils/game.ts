@@ -4,7 +4,7 @@ export const WINNING_COMBINATIONS = [
     [0,4,8],[2,4,6] //Diagonal
 ];
 
-export type Symbol = 'X' | 'O' | null;
+export type Symbol = 'X' | 'O' | 'draw' | null;
 export type Board = Symbol[];
 
 export const checkWinner = (board: Board):{winner: Symbol; combination: number[] | null} =>{
@@ -24,4 +24,4 @@ export const isBoardFull = (board:Board):boolean =>{
 
 export const isGameOver = (board:Board):boolean => {
     return checkWinner(board).winner !== null || isBoardFull(board);
-};
+}
