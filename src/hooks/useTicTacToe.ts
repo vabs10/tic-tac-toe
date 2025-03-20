@@ -68,9 +68,6 @@ const useTicTacToe = (initialPlayerSymbol: Symbol= null) =>{
 
             if(computerMove !== null && currentBoard[computerMove] === null){
                 const newBoard = [...currentBoard];
-                newBoard[computerMove] = computerSymbol;
-                setBoard(newBoard);
-
                 const{winner: newWinner, combination} = checkWinner(newBoard);
                 if(newWinner){
                     setWinner(newWinner);
@@ -78,6 +75,9 @@ const useTicTacToe = (initialPlayerSymbol: Symbol= null) =>{
                     setIsLoading(false);
                     return;
                 }
+                
+                newBoard[computerMove] = computerSymbol;
+                setBoard(newBoard);
 
                 if(isBoardFull(newBoard)){
                     setWinner('draw');
